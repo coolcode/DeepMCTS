@@ -26,7 +26,7 @@ namespace DeepMCTS
             var i = 0;
             var lose = 0;
             var win = 0;
-            var count = 100;
+            var count = 100000;
             while (i++ < count)
             {
                 Console.WriteLine($"{i}. now: {DateTime.Now}");
@@ -38,7 +38,7 @@ namespace DeepMCTS
 
                 do
                 {
-                    var bestmove = ai1.GetBestMove(game, player);
+                    var bestmove = ai2.GetBestMove_RealtimeTraining(game, player);
                     //Console.WriteLine($"p1 best move: {bestmove}");
                     Console.Write(bestmove);
                     game.Mark(player, bestmove);
@@ -47,7 +47,8 @@ namespace DeepMCTS
                     player = 3 - player;
                     if (!game.Over())
                     {
-                        bestmove = ai2.GetBestMove_RealtimeTraining(game, player);
+                        //bestmove = ai2.RandomMove(game, player);
+                        bestmove = ai1.GetBestMove(game, player);
                         //Console.WriteLine($"p2 best move: {bestmove}");
                         Console.Write(bestmove);
                         game.Mark(player, bestmove);

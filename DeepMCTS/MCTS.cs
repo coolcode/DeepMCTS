@@ -91,6 +91,16 @@ namespace DeepMCTS
         }
 
         //THE EXECUTING FUNCTION
+        public byte RandomMove(Game game, int player)
+        {
+            var moves = game.GetValidMoves();
+
+            var move = moves[rand.Next(0, moves.Count)];
+
+            return move;
+        }
+
+        //THE EXECUTING FUNCTION
         public byte GetBestMove(Game game, int player)
         {
             //Setup root and initial variables
@@ -164,7 +174,7 @@ namespace DeepMCTS
             //Copy current state to the game
             game.BitBoard = current.bits;
 
-            List<byte> validMoves = game.GetValidMoves(current.bits);
+            var validMoves = game.GetValidMoves(current.bits);
 
             for (int i = 0; i < validMoves.Count; i++)
             {
