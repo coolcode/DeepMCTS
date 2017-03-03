@@ -52,13 +52,21 @@ namespace DeepMCTS
         public byte GetBestMove_RealtimeTraining(Game game, int player)
         {
             //Setup root and initial variables
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "json", $"mcts.ttt.{game.Depth}.{game.BitBoard}.json");
-            Node root = null;
+            var fileName = $"mcts.ttt.{game.Depth}.{game.BitBoard}.json";
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "json", fileName);
+            Node root = null; 
+            var count = 1000;
             if (File.Exists(path))
             {
                 root = Node.Load(path);
                 root = root.Search(game.BitBoard);
                 versionNo++;
+                count = 100;
+                Console.WriteLine($"    {fileName} Vi/Va: {root.visits}/{root.value} {(root.value/(double)root.visits).ToString("p1")}% ucb1: {root.ucb1}");
+            }
+            else
+            {
+                Console.WriteLine($"{fileName} is new.");                 
             }
 
 
@@ -74,7 +82,7 @@ namespace DeepMCTS
 
             //four phases: descent, roll-out, update and growth done iteratively X times
             //-----------------------------------------------------------------------------------------------------
-            for (int iteration = 0; iteration < 10; iteration++)
+            for (int iteration = 0; iteration < count; iteration++)
             {
                 Node current = Selection(root, game);
                 int value = Rollout(current, game, startPlayer);
@@ -83,7 +91,7 @@ namespace DeepMCTS
 
             //Restore game state and return move with highest value
             game.BitBoard = root.bits;
-            
+
             root.Save(path);
 
             //return root.children.Aggregate((i1, i2) => i1.visits > i2.visits ? i1 : i2).action;

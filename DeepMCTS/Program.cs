@@ -38,7 +38,7 @@ namespace DeepMCTS
 
                 do
                 {
-                    var bestmove = ai2.GetBestMove_RealtimeTraining(game, player);
+                    var bestmove = ai1.GetBestMove(game, player);
                     //Console.WriteLine($"p1 best move: {bestmove}");
                     Console.Write(bestmove);
                     game.Mark(player, bestmove);
@@ -48,7 +48,7 @@ namespace DeepMCTS
                     if (!game.Over())
                     {
                         //bestmove = ai2.RandomMove(game, player);
-                        bestmove = ai1.GetBestMove(game, player);
+                        bestmove = ai2.GetBestMove_RealtimeTraining(game, player); 
                         //Console.WriteLine($"p2 best move: {bestmove}");
                         Console.Write(bestmove);
                         game.Mark(player, bestmove);
